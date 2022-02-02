@@ -18,9 +18,14 @@ let resultArea = document.getElementById("result_area");
 let resetButton = document.getElementById("reset_button");
 let chances = 5;
 let gameOver = false;
+let chanceArea = document.getElementById("chance_area");
+let history = [];
 
 playButton.addEventListener("click", play); //함수를 매개변수처럼 넘김
 resetButton.addEventListener("click", reset);
+userInput.addEventListener("focus", function(){
+    userInput.value=""
+}) //다음 숫자 입력하려고 누르면 원 숫자 사라짐
 
 function pickRandNum() {
     com_num = Math.floor(Math.random() * 100) + 1;
@@ -30,24 +35,39 @@ function pickRandNum() {
 function play() {
     let userValue = userInput.value;
 
+    //chances가 감소하기 전, 이 숫자가 범위 내에 있는지 확인
+    if (userValue > 100 || userValue < 1) {
+        resultArea.textContent = "1과 100 사이 숫자를 입력해 주세요"
+        return;
+    }
+
+    if (history.includes(userValue)) { //history에 있는지 확인,
+        resultArea.textContent = "이미 입력한 숫자입니다."
+        return;
+    }
+
     chances--;
+    chanceArea.textContent = `남은 기회: ${chances}번`; //개 중요!
     console.log("기회:", chances);
+
 
     if (userValue > com_num) {
         resultArea.textContent = "Down!";
     }
-    else if (userValue == com_num) {
-        resultArea.textContent = "Bingo!";
-    }
-    else {
+    else if (userValue < com_num) {
         resultArea.textContent = "Up!";
     }
+    else {
+        resultArea.textContent = "Bingo!";
+    }
+
+    history.push(userValue); //히스토리에 값을 계속 저장
 
     if (chances < 1) {
         gameOver=true;
     }
 
-    if (gameOver = true) {
+    if (gameOver == true) {
         playButton.disabled = true;
     }
 }
