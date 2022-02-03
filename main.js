@@ -16,7 +16,7 @@ let playButton = document.getElementById("play_button");
 let userInput = document.getElementById("user_input");
 let resultArea = document.getElementById("result_area");
 let resetButton = document.getElementById("reset_button");
-let chances = 5;
+let chances = 10;
 let gameOver = false;
 let chanceArea = document.getElementById("chance_area");
 let history = [];
@@ -26,6 +26,7 @@ resetButton.addEventListener("click", reset);
 userInput.addEventListener("focus", function(){
     userInput.value=""
 }) //다음 숫자 입력하려고 누르면 원 숫자 사라짐
+//userInput만 쓸거라서 함수 설정 안함
 
 function pickRandNum() {
     com_num = Math.floor(Math.random() * 100) + 1;
@@ -59,6 +60,7 @@ function play() {
     }
     else {
         resultArea.textContent = "Bingo!";
+        gameOver = true;
     }
 
     history.push(userValue); //히스토리에 값을 계속 저장
